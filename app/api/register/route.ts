@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sendConfirmationEmail } from "../../../lib/email";
 import { verifyIdCard } from "../../../lib/verifyId";
+import connectDB from "../../../lib/mongodb";
+import Team from "../../../models/Team";
 
 const memberSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -101,7 +103,31 @@ export async function POST(req: Request) {
       }
     }
 
-    const teamId = `TEAM-${crypto.randomUUID().split("-")[0].toUpperCase()}`;
+    let teamId = `TEAM-${crypto.randomUUID().split("-")[0].toUpperCase()}`;
+
+    // Connect to MongoDB and save team
+    try {
+      await connectDB();
+
+      // Check if teamId already exists (unlikely but handle it)
+      let existingTeam = await Team.findOne({ teamId });
+      while (existingTeam) {
+        // Regenerate teamId if collision occurs
+        teamId = `TEAM-${crypto.randomUUID().split("-")[0].toUpperCase()}`;
+        existingTeam = await Team.findOne({ teamId });
+      }
+
+      const team = new Team({
+        teamId,
+        teamSize: expectedSize,
+        members: validatedMembers,
+      });
+      await team.save();
+    } catch (dbError) {
+      console.error("Database error:", dbError);
+      // Continue even if database save fails - email will still be sent
+      // In production, you might want to handle this differently
+    }
 
     // Send confirmation email to the first member's email
     const primaryEmail = validatedMembers[0].email;
