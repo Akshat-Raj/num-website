@@ -7,7 +7,7 @@ const memberSchema = z.object({
   name: z.string().min(2, "Name is required"),
   contactNumber: z.string().min(10, "Valid contact number is required"),
   email: z.string().email("Valid email required"),
-  usn: z.string().min(3, "USN is required"),
+  usn: z.preprocess((val) => (val === "" ? undefined : val), z.string().optional()),
 });
 
 const schema = z.object({

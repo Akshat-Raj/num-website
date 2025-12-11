@@ -179,11 +179,10 @@ export default function RegistrationForm() {
                   </div>
 
                   <div className="field">
-                    <label htmlFor={`usn-${i}`}>USN</label>
+                    <label htmlFor={`usn-${i}`}>USN (optional)</label>
                     <input
                       id={`usn-${i}`}
                       name={`members[${i}][usn]`}
-                      required
                       placeholder="USN123456"
                     />
                   </div>
