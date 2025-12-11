@@ -69,9 +69,9 @@ export default function RegistrationForm() {
   };
 
   return (
-    <div className="glass" style={{ padding: 24 }}>
-      <div className="grid two" style={{ alignItems: "flex-start" }}>
-        <div>
+    <div className="glass">
+      <div className="grid two" style={{ alignItems: "flex-start", gap: 20 }}>
+        <div style={{ order: 2 }}>
           <div className="card-title" style={{ marginBottom: 8 }}>
             One flow, three checks
           </div>
@@ -86,7 +86,7 @@ export default function RegistrationForm() {
               </span>
             ))}
           </div>
-          <div className="glass" style={{ padding: 14, marginTop: 12 }}>
+          <div className="glass" style={{ padding: "12px", marginTop: 12 }}>
             <div className="card-title">Security notes</div>
             <p className="card-sub">
               We validate file type and size locally, never store more than required, and you can
@@ -104,6 +104,7 @@ export default function RegistrationForm() {
           viewport={{ once: true }}
           transition={{ duration: 0.35 }}
           onSubmit={handleSubmit}
+          style={{ order: 1 }}
         >
           <div className="field">
             <label>Human verification</label>
@@ -136,7 +137,7 @@ export default function RegistrationForm() {
                 <motion.div
                   key={i}
                   className="glass"
-                  style={{ padding: 20, marginBottom: 16 }}
+                  style={{ padding: "14px", marginBottom: 14 }}
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
@@ -155,7 +156,7 @@ export default function RegistrationForm() {
                     />
                   </div>
 
-                  <div className="grid two">
+                  <div className="grid two" style={{ gap: 14 }}>
                     <div className="field">
                       <label htmlFor={`contactNumber-${i}`}>Contact number</label>
                       <input
@@ -216,11 +217,13 @@ export default function RegistrationForm() {
             </div>
           )}
 
-          <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <button className="button" type="submit" disabled={disableForm}>
               {status.type === "submitting" ? "Submitting..." : "Generate Team ID"}
             </button>
-            <span className="card-sub">You will receive a confirmation email after approval.</span>
+            <span className="card-sub" style={{ textAlign: "center" }}>
+              You will receive a confirmation email after approval.
+            </span>
           </div>
 
           <AnimatePresence>

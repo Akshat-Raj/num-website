@@ -17,7 +17,6 @@ export default function Home() {
             <div className="pill">Numerano</div>
             <span>Team Registration</span>
           </div>
-          <div className="nav-chip">Modern, secure onboarding</div>
         </nav>
 
         <section className="section" id="register">
@@ -27,7 +26,7 @@ export default function Home() {
             variants={fadeIn}
             transition={{ duration: 0.5, ease: "easeOut" }}
             className="glass"
-            style={{ padding: "32px", position: "relative", overflow: "hidden" }}
+            style={{ position: "relative", overflow: "hidden" }}
           >
             <div
               style={{
@@ -54,8 +53,7 @@ export default function Home() {
         </section>
 
         <section className="section">
-          <div className="section-header" style={{ marginBottom: 18 }}>
-            <div className="pill">Required steps</div>
+          <div className="section-header">
             <h2 className="section-title">Human check • ID upload • Confirmation email</h2>
           </div>
           <RegistrationForm />
