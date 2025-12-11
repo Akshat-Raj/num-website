@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Model } from "mongoose";
 
 export interface ITeamMember {
   name: string;
@@ -15,7 +15,7 @@ export interface ITeam extends Document {
   updatedAt: Date;
 }
 
-const TeamMemberSchema = new Schema<ITeamMember>(
+const TeamMemberSchema = new Schema(
   {
     name: { type: String, required: true },
     contactNumber: { type: String, required: true },
@@ -25,7 +25,7 @@ const TeamMemberSchema = new Schema<ITeamMember>(
   { _id: false }
 );
 
-const TeamSchema = new Schema<ITeam>(
+const TeamSchema = new Schema(
   {
     teamId: { type: String, required: true, unique: true, index: true },
     teamSize: { type: Number, required: true, min: 2, max: 4 },
@@ -37,7 +37,8 @@ const TeamSchema = new Schema<ITeam>(
 );
 
 // Prevent model re-compilation during development
-const Team = mongoose.models.Team || mongoose.model<ITeam>("Team", TeamSchema);
+const Team: Model<ITeam> =
+  mongoose.models.Team || mongoose.model<ITeam>("Team", TeamSchema);
 
 export default Team;
 
