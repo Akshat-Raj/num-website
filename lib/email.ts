@@ -44,13 +44,22 @@ export async function sendConfirmationEmail({ to, teamName, teamId }: MailPayloa
     </div>
   `;
 
-  await transporter.sendMail({
-    from: SMTP_FROM,
-    to,
-    subject: `Your Reflect Team ID: ${teamId}`,
-    html,
-  });
+  try {
+    await transporter.sendMail({
+      from: SMTP_FROM,
+      to,
+      subject: `Your Numerano Team ID: ${teamId}`,
+      html,
+    });
 
-  return { ok: true, skipped: false };
+    return { ok: true, skipped: false };
+  } catch (error) {
+    console.error("Email send error:", error);
+    return {
+      ok: false,
+      skipped: false,
+      message: error instanceof Error ? error.message : "Failed to send email",
+    };
+  }
 }
 
