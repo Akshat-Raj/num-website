@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import ChatBot from "../components/ChatBot";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const grotesk = Space_Grotesk({
@@ -34,6 +35,7 @@ export default function RootLayout({
         <div className="page-bg" />
         <div className="page-grid" />
         {children}
+        <ChatBot />
       </body>
     </html>
   );
