@@ -133,11 +133,13 @@ export async function POST(req: Request) {
     const primaryEmail = validatedMembers[0].email;
     const primaryName = validatedMembers[0].name;
 
+    console.log("Attempting to send email to:", primaryEmail);
     const mailResult = await sendConfirmationEmail({
       to: primaryEmail,
       teamName: primaryName,
       teamId,
     });
+    console.log("Email result:", mailResult);
 
     return NextResponse.json({
       ok: true,

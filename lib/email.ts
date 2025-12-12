@@ -16,12 +16,15 @@ const {
 
 export async function sendConfirmationEmail({ to, teamName, teamId }: MailPayload) {
   if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS) {
+    console.log("SMTP not configured:", { SMTP_HOST, SMTP_PORT, SMTP_USER: !!SMTP_USER, SMTP_PASS: !!SMTP_PASS });
     return {
       ok: false,
       skipped: true,
       message: "SMTP credentials not configured; skipping email send.",
     };
   }
+  
+  console.log("SMTP Config:", { host: SMTP_HOST, port: SMTP_PORT, from: SMTP_FROM });
 
   const transporter = nodemailer.createTransport({
     host: SMTP_HOST,
@@ -45,12 +48,14 @@ export async function sendConfirmationEmail({ to, teamName, teamId }: MailPayloa
   `;
 
   try {
-    await transporter.sendMail({
+    console.log("Sending email to:", to);
+    const result = await transporter.sendMail({
       from: SMTP_FROM,
       to,
       subject: `Your Numerano Team ID: ${teamId}`,
       html,
     });
+    console.log("Email sent successfully:", result.messageId);
 
     return { ok: true, skipped: false };
   } catch (error) {
